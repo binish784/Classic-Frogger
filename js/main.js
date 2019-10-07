@@ -1,4 +1,4 @@
-const GAME_WIDTH=600;
+const GAME_WIDTH=550;
 const GAME_HEIGHT=600;
 const FRAME_RATE=1000/30;
 

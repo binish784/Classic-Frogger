@@ -1,6 +1,7 @@
 class Controller{
   constructor(game){
-    this.frog=game.frog;
+    this.game=game;
+    this.frog=game.frogs[game.frogs.length-1];
     this.moveLock=false;
     window.addEventListener("keydown",function(e){
       if(!this.moveLock){
@@ -25,4 +26,9 @@ class Controller{
       this.moveLock=false;
     }.bind(this))
   }
+
+  changeFrog(){
+    this.frog=this.game.frogs[this.game.frogs.length-1];
+  }
+
 }

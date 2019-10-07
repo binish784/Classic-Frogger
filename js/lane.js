@@ -8,9 +8,23 @@ class Lane{
     this.GAME_WIDTH=game_width;
     this.y=this.lane_id*this.height;
     this.last_id=undefined;
+    this.grid=50;
+    this.grids=[];
     this.last_enemy=randomNumber(100,450);
     this.enemies_gap=randomNumber(300,500);
     this.left_lane=randomNumber(0,10) <5 ? true : false;
+  }
+
+  initialize(ctx){
+    for(let i=0;i<11;i++){
+      if(this.lane_id==0 ){
+        if(i%2==1){
+          this.grids.push(new Grid(i*this.grid,this.y,false,"lime"));
+        }else{
+          this.grids.push(new Grid(i*this.grid,this.y,true));
+        }
+    }
+  }
   }
 
   markSafe(ctx,text){
@@ -42,10 +56,15 @@ class Lane{
   }
 
   render(ctx){
+    this.grids.forEach(function(grid){
+      grid.render(ctx);
+      grid.renderText(ctx);
+    })
     this.enemies.forEach(function(e){
       e.render(ctx);
     })
     let text="";
+
     if(this.lane_id==0 || this.lane_id==5 || this.lane_id==11){
       switch (this.lane_id) {
         case 11:
@@ -54,9 +73,9 @@ class Lane{
         case 5:
           text="Safe Lane";
           break;
-        case 0:
-          text="Destination Lane";
-          break;
+        // case 0:
+        //   text="Destination Lane";
+        //   break;
       }
       this.markSafe(ctx,text);
     }

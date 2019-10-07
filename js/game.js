@@ -6,16 +6,34 @@ class Game{
     this.GAME_WIDTH=game_width;
     this.GAME_HEIGHT=game_height;
     this.num_of_lanes=this.GAME_WIDTH/this.lane_height;
-    this.frog=new Frog(this);
+    this.frogs=[new Frog(this)];
     this.currentState=GAME_STATES.RUNNING;
   }
 
   initialize(){
     this.generateLanes();
+    this.lanes.forEach(function(lane){
+      lane.initialize(this.ctx);
+    }.bind(this))
   }
 
+  nextFrog(){
+    let frog_num=this.frogs.length-1;
+    let current_frog=this.frogs[frog_num];
+    this.lanes[0].grids.forEach(function(grid){
+      if(current_frog.current_lane==0 &&
+         current_frog.position.x>grid.position.x &&
+         current_frog.position.x<grid.position.x+grid.width &&
+        !grid.danger){
+          this.frogs.push(new Frog(this));
+          controller.changeFrog();
+      }
+    }.bind(this))
+  }
+
+
   generateLanes(){
-    for(let i=0;i<this.num_of_lanes;i++){
+    for(let i=0;i<=this.num_of_lanes;i++){
       this.lanes.push(new Lane(i,this.GAME_WIDTH));
       this.lanes[i].generateEnemies();
     }
@@ -23,24 +41,23 @@ class Game{
 
   update(){
     if(this.currentState!=GAME_STATES.RUNNING) return;
-
-    this.frog.update();
-    for(let i=0;i<this.num_of_lanes;i++){
+    this.frogs.forEach(function(frog){
+      frog.update();
+    })
+    for(let i=0;i<=this.num_of_lanes;i++){
       this.lanes[i].update();
     }
+    this.nextFrog();
   }
 
   render(){
-    if(this.currentState!=GAME_STATES.RUNNING) return;
-
     this.ctx.clearRect(0,0,this.GAME_WIDTH,this.GAME_HEIGHT);
-    for(let i=0;i<this.num_of_lanes;i++){
+    for(let i=0;i<=this.num_of_lanes;i++){
       this.lanes[i].render(this.ctx);
     }
-    this.frog.render(this.ctx);
-
-
+    this.frogs.forEach(function(frog){
+      frog.render(this.ctx);
+    }.bind(this))
   }
-
 
 }
