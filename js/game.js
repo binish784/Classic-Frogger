@@ -3,18 +3,18 @@ class Game{
     this.ctx=ctx;
     this.lanes=[];
     this.lane_height=50;
+    this.dividerLane=5;
     this.GAME_WIDTH=game_width;
     this.GAME_HEIGHT=game_height;
     this.num_of_lanes=this.GAME_WIDTH/this.lane_height;
     this.frogs=[new Frog(this)];
     this.currentState=GAME_STATES.RUNNING;
+    this.safeLanes=[0,5,11];
   }
 
   initialize(){
     this.generateLanes();
-    this.lanes.forEach(function(lane){
-      lane.initialize(this.ctx);
-    }.bind(this))
+
   }
 
   nextFrog(){
@@ -25,6 +25,7 @@ class Game{
          current_frog.position.x>grid.position.x &&
          current_frog.position.x<grid.position.x+grid.width &&
         !grid.danger){
+          grid.occupied=true;
           this.frogs.push(new Frog(this));
           controller.changeFrog();
       }
@@ -34,7 +35,8 @@ class Game{
 
   generateLanes(){
     for(let i=0;i<=this.num_of_lanes;i++){
-      this.lanes.push(new Lane(i,this.GAME_WIDTH));
+      this.lanes.push(new Lane(i,this));
+      this.lanes[i].initialize(this.ctx);
       this.lanes[i].generateEnemies();
     }
   }
