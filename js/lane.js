@@ -56,8 +56,6 @@ class Lane{
       }
     }
     this.last=this.enemies[3];
-
-    console.log(this.enemies.length);
   }
 
   update(){
@@ -84,9 +82,6 @@ class Lane{
         case 5:
           text="Safe Lane";
           break;
-        // case 0:
-        //   text="Destination Lane";
-        //   break;
       }
       this.markSafe(ctx,text);
     }

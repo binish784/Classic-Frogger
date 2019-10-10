@@ -2,19 +2,18 @@ class Game{
   constructor(ctx,game_width,game_height){
     this.ctx=ctx;
     this.lanes=[];
-    this.lane_height=50;
     this.dividerLane=5;
+    this.lane_height=50;
+    this.safeLanes=[0,5,11];
     this.GAME_WIDTH=game_width;
     this.GAME_HEIGHT=game_height;
-    this.num_of_lanes=this.GAME_WIDTH/this.lane_height;
     this.frogs=[new Frog(this)];
     this.currentState=GAME_STATES.RUNNING;
-    this.safeLanes=[0,5,11];
+    this.num_of_lanes=this.GAME_WIDTH/this.lane_height;
   }
 
   initialize(){
     this.generateLanes();
-
   }
 
   nextFrog(){

@@ -5,7 +5,7 @@ class Enemy{
     this.width=width;
     this.speed=this.lane.speed;
     this.GAME_WIDTH=lane.GAME_WIDTH;
-    this.colors=["red","maroon","orangle","purple","blue","teal"];
+    this.colors=["red","maroon","orangle","purple","blue","teal",];
     this.position={
       x:initial_x,
       y:this.lane.y+((this.lane.height-this.height)/2)

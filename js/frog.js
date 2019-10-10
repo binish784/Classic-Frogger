@@ -1,26 +1,31 @@
 class Frog{
   constructor(game){
-    this.game=game;
+
+    this.speed=0;
+    this.grid=50;
     this.width=30;
     this.height=30;
-    this.grid=50;
-    this.speed=0;
+
     this.position={
       x:250+(this.grid-this.width)/2,
       y:550+(this.grid-this.height)/2
     }
-    this.current_grid=Math.floor(this.position.x/this.grid);
+
+    this.game=game;
+    this.step=undefined;
+    this.isMounted=false;
     this.current_lane=11;
     this.GAME_WIDTH=game.GAME_WIDTH;
     this.GAME_HEIGHT=game.GAME_HEIGHT;
-    this.step=undefined;
-    this.isMounted=false;
+    this.current_grid=Math.floor(this.position.x/this.grid);
+
     this.MOVEMENT={
       LEFT:0,
       RIGHT:1,
       UP:2,
       DOWN:3
     }
+
   }
 
   move(speed){
@@ -31,22 +36,24 @@ class Frog{
 
   checkOccupied(movement){
     let occupied=false;
+    let next_lane=this.current_lane;
+    let next_grid=this.current_grid;
     switch (movement) {
       case 0:
-        occupied=this.game.lanes[this.current_lane].grids[this.current_grid-1].occupied;
+        next_grid=this.current_grid-1;
         break;
       case 1:
-        occupied=this.game.lanes[this.current_lane].grids[this.current_grid+1].occupied;
+        next_grid=this.current_grid+1;
         break;
       case 2:
-        occupied=this.game.lanes[this.current_lane-1].grids[this.current_grid].occupied;
+        next_lane=this.current_lane-1;
         break;
       case 3:
-        occupied=this.game.lanes[this.current_lane+1].grids[this.current_grid].occupied;
+        next_lane=this.current_lane+1;
         break;
     }
-    console.log(this.current_lane,this.current_grid);
-    console.log(occupied);
+    let lane=this.game.lanes[next_lane];
+    occupied=this.game.lanes[next_lane].grids[next_grid].occupied;
     return occupied;
   }
 
@@ -69,10 +76,11 @@ class Frog{
   }
 
   moveDown(){
-    if(this.position.y+this.grid<this.GAME_HEIGHT  && !this.checkOccupied(this.MOVEMENT.DOWN)){
+    if(this.position.y+this.grid<this.game.GAME_HEIGHT  && !this.checkOccupied(this.MOVEMENT.DOWN)){
       this.step=this.MOVEMENT.DOWN;
     }
   }
+
 
   collide(){
     let lane=this.game.lanes[this.current_lane];
@@ -81,26 +89,26 @@ class Frog{
           this.position.x + this.width > enemy.position.x &&
            this.position.y < enemy.position.y + enemy.height &&
            this.position.y + this.height > enemy.position.y) {
-
              //after enemy collision
             if(!enemy.canBeMounted){
               this.game.currentState=GAME_STATES.GAMEOVER;
             }else{
+              this.isMounted=true;
               this.move(enemy.speed);
             }
           }
       }.bind(this))
       lane.grids.forEach(function(grid){
-        if(this.current_lane==0 && this.position.x>grid.position.x && this.position.x<grid.position.x+grid.width && grid.danger){
+        if(this.position.x>grid.position.x && this.position.x<grid.position.x+grid.width && grid.danger && !this.isMounted){
           this.game.currentState=GAME_STATES.GAMEOVER;
         }
       }.bind(this))
+      this.isMounted=false;
   }
 
   update(){
     if(this.step!=undefined){
         this.current_grid=Math.floor(this.position.x/this.grid);
-        console.log(this.current_grid);
         switch (this.step) {
           case this.MOVEMENT.LEFT:
             this.current_grid-=1;

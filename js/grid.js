@@ -1,14 +1,17 @@
 class Grid{
   constructor(x_pos,y_pos,danger,color){
+
     this.width=50;
     this.height=50;
     this.color=color || "white";
+    this.occupied=false;
+    this.danger=false || danger;
+
     this.position = {
       x:x_pos,
       y:y_pos
     }
-    this.danger=false || danger;
-    this.occupied=false;
+
   }
 
   renderText(ctx){
