@@ -18,6 +18,12 @@ class Controller{
           case 40:
             this.frog.moveDown();
             break;
+          case 32:
+            if(this.game.currentState==GAME_STATES.GAMEOVER || this.game.currentState==GAME_STATES.MENU){
+              console.log("Restart Game");
+              this.game.restart();
+              break;
+            }
         }
         this.moveLock=true;
       }
@@ -25,6 +31,10 @@ class Controller{
     window.addEventListener("keyup",function(e){
       this.moveLock=false;
     }.bind(this))
+  }
+
+  initialize(){
+    this.frog=this.game.frogs[game.frogs.length-1];
   }
 
   changeFrog(){

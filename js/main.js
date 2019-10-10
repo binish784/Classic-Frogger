@@ -12,11 +12,12 @@ const canvas= document.getElementById("canvas");
 
 const context= canvas.getContext("2d");
 
+
 const game= new Game(context,GAME_WIDTH,GAME_HEIGHT);
 
-game.initialize();
-
 const controller = new Controller(game);
+
+game.start();
 
 function render(){
   game.render();

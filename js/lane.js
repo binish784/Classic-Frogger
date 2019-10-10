@@ -48,6 +48,7 @@ class Lane{
 
   markSafe(ctx,text){
     ctx.fillStyle= ("Black");
+    ctx.font="12px Arial";
     ctx.fillText(text,70,this.y+this.height/2);
   }
 

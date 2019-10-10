@@ -16,6 +16,7 @@ class Grid{
 
   renderText(ctx){
     ctx.fillStyle="black";
+    ctx.font="15px Arial";
     if(this.danger){
       ctx.fillText("Danger",this.position.x+this.width/2 -20,this.position.y+this.height/2);
     }else{

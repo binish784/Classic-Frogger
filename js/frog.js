@@ -30,7 +30,6 @@ class Frog{
 
   move(speed){
     if((this.position.x)>0 && (this.position.x+this.width)<this.GAME_WIDTH){
-      console.log(this.position.x);
       this.position.x+=speed;
     }
   }
@@ -93,8 +92,8 @@ class Frog{
              //after enemy collision
             if(!enemy.canBeMounted){
               this.game.currentState=GAME_STATES.GAMEOVER;
+              this.game.score=0;
             }else{
-              console.log("mounted + move");
               this.isMounted=true;
               this.move(enemy.speed);
             }
@@ -103,6 +102,7 @@ class Frog{
       lane.grids.forEach(function(grid){
         if(this.position.x>grid.position.x && this.position.x<grid.position.x+grid.width && grid.danger && !this.isMounted){
           this.game.currentState=GAME_STATES.GAMEOVER;
+          this.game.score=0;
         }
       }.bind(this))
       this.isMounted=false;
