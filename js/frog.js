@@ -29,7 +29,8 @@ class Frog{
   }
 
   move(speed){
-    if((this.position.x-this.width/2)>0 && (this.position.x+this.width+this.width/2)<this.GAME_WIDTH){
+    if((this.position.x)>0 && (this.position.x+this.width)<this.GAME_WIDTH){
+      console.log(this.position.x);
       this.position.x+=speed;
     }
   }
@@ -93,6 +94,7 @@ class Frog{
             if(!enemy.canBeMounted){
               this.game.currentState=GAME_STATES.GAMEOVER;
             }else{
+              console.log("mounted + move");
               this.isMounted=true;
               this.move(enemy.speed);
             }

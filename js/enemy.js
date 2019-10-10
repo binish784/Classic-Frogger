@@ -11,14 +11,12 @@ class Enemy{
       y:this.lane.y+((this.lane.height-this.height)/2)
     }
     this.canBeMounted=false || mountable;
-    this.color=this.canBeMounted ? "burlywood " : this.colors[randomNumber(0,4)]
+    this.color=this.canBeMounted ? "burlywood " : this.colors[randomNumber(0,3)]
   }
 
   render(ctx){
     ctx.fillStyle=this.color;
     ctx.fillRect(this.position.x,this.position.y,this.width,this.height);
-    // ctx.fillStyle="white";
-    // ctx.fillText((this.canBeMounted) ? "Mount" : "Danger",this.position.x+this.width/2-5,this.position.y+this.height/2);
   }
 
   update(){
