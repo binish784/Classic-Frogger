@@ -18,7 +18,7 @@ class Frog{
     this.GAME_WIDTH=game.GAME_WIDTH;
     this.GAME_HEIGHT=game.GAME_HEIGHT;
     this.current_grid=Math.floor(this.position.x/this.grid);
-
+    this.color="white";
     this.MOVEMENT={
       LEFT:0,
       RIGHT:1,
@@ -133,7 +133,7 @@ class Frog{
   }
 
   render(ctx){
-    ctx.fillStyle="darkgreen";
+    ctx.fillStyle=this.color;
     ctx.fillRect(this.position.x,this.position.y,this.width,this.height);
   }
 }

@@ -17,12 +17,23 @@ class Lane{
   }
 
   initialize(ctx){
+    let danger=false;
+    let grid_color=undefined;
     for(let i=0;i<11;i++){
-        if((i%2==1 && this.lane_id==0) || this.lane_id>=this.game.dividerLane){
-          this.grids.push(new Grid(i*this.grid,this.y,false,"lime"));
-        }else{
-          this.grids.push(new Grid(i*this.grid,this.y,true, "skyblue"));
+      if(this.game.safeLanes.indexOf(this.lane_id)>0){
+        grid_color="grey";
+        danger=false;
+      }else if((i%2==1 && this.lane_id==0)){
+          danger=false;
+          grid_color="darkseagreen";
+      }else if(this.lane_id>=this.game.dividerLane){
+        grid_color="#c7c7c7";
+        danger=false
+      }else{
+          danger=true;
+          grid_color="skyblue";
         }
+        this.grids.push(new Grid(i*this.grid,this.y,danger, grid_color));
       }
 
     if(this.lane_id<this.game.dividerLane && this.lane_id!=0 && this.lane_id!=1){
@@ -67,7 +78,7 @@ class Lane{
   render(ctx){
       this.grids.forEach(function(grid){
         grid.render(ctx);
-        grid.renderText(ctx);
+        // grid.renderText(ctx);
       }.bind(this));
     this.enemies.forEach(function(e){
       e.render(ctx);
