@@ -46,12 +46,6 @@ class Lane{
     this.speed=(this.left_lane) ? -randomNumber(2,5) : randomNumber(2,5);
   }
 
-  markSafe(ctx,text){
-    ctx.fillStyle= ("Black");
-    ctx.font="12px Arial";
-    ctx.fillText(text,70,this.y+this.height/2);
-  }
-
   generateEnemies(){
     let mountable_enemies= (this.lane_id<this.game.dividerLane) ? true : false;
     if(this.game.safeLanes.indexOf(this.lane_id)<0){
@@ -84,19 +78,7 @@ class Lane{
     this.enemies.forEach(function(e){
       e.render(ctx);
     })
-    let text="";
 
-    if(this.lane_id==0 || this.lane_id==5 || this.lane_id==11){
-      switch (this.lane_id) {
-        case 11:
-          text="Start Lane";
-          break;
-        case 5:
-          text="Safe Lane";
-          break;
-      }
-      this.markSafe(ctx,text);
-    }
   }
 
 }
